@@ -21,4 +21,4 @@ Este projeto será um drone totalmente autônomo, controlado via computador, com
 # Links:
 - [projeto do joop brokking](http://www.brokking.net/ymfc-32_auto_main.html)
 
-- [Frame 3d f450]()
+- [Frame 3d f450](https://www.thingiverse.com/thing:264955)
