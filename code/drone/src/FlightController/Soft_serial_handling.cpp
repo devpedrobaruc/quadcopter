@@ -13,43 +13,35 @@ void FlightController::si_translate_bytes(void)
 
     while (si_received_bytes_counter <= 130)
     {
+
       if (5.0 + 104.1666667 * (float)si_received_bytes_counter > si_time_array[si_time_array_counter_2])
-      {
-        // If bit time is lower than the level change time
-        si_level = !si_level;
+      { // If bit time is lower than the level change time
+        if (si_level)
+          si_level = 0;
+        else
+          si_level = 1;
         si_time_array_counter_2++;
       }
 
       if (si_received_bytes_counter == 1 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] = si_level << 0;
-      else if (si_received_bytes_counter == 2 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 2 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 1;
-      else if (si_received_bytes_counter == 3 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 3 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 2;
-      else if (si_received_bytes_counter == 4 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 4 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 3;
-      else if (si_received_bytes_counter == 5 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 5 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 4;
-      else if (si_received_bytes_counter == 6 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 6 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 5;
-      else if (si_received_bytes_counter == 7 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 7 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 6;
-      else if (si_received_bytes_counter == 8 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 8 + si_byte_counter * 10)
         si_received_bytes[si_byte_counter] += si_level << 7;
-      else if (si_received_bytes_counter == 9 + si_byte_counter * 10)
+      if (si_received_bytes_counter == 9 + si_byte_counter * 10)
         si_byte_counter++;
-
       si_received_bytes_counter++;
-    }
-
-    if (si_received_bytes[0] == 'A')
-    {
-      while (1)
-      {
-        error = 3;
-        error_signal();
-        delay(4);
-      }
     }
 
     si_check_byte = 0x00;
@@ -85,8 +77,7 @@ void FlightController::si_translate_bytes(void)
 void FlightController::Serial_input_handler(void)
 {
   if (si_rising_edge_set)
-  {
-    // If the receiver channel 1 input pulse on A0 is high.
+  {                              // If the receiver channel 1 input pulse on A0 is high.
     TIM3->CCER |= TIM_CCER_CC1P; // Change the input capture mode to the falling edge of the pulse.
     si_rising_edge_set = 0;
   }

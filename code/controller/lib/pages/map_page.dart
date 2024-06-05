@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:controller/entities/quadcopter_data.dart';
 import 'package:flutter/material.dart';
@@ -79,34 +78,10 @@ class _MapPage extends State<MapPage> {
     Timer.periodic(readDuration, (_) {
       if (connectionStatus == ConnectionStatus.connected &&
           serialPort != null &&
-          serialPort!.isOpen) {
-        const List<int> bytes = [
-          36,
-          77,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-        ];
-        int checkByte = 0;
-        for (final byte in bytes) {
-          checkByte += checkByte.toUnsigned(8) ^ byte.toUnsigned(8);
-        }
-
-        serialPort!.write(Uint8List.fromList([...bytes, checkByte]));
-        return;
-      }
-      if (connectionStatus == ConnectionStatus.connected &&
-          serialPort != null &&
           serialPort!.isOpen &&
           serialPort!.bytesAvailable > 0) {
         serialData.addAll(serialPort!.read(QuadcopterData.payloadSize * 3));
 
-        print(serialData);
         int payloadIndex = quadcopterDataFindValidPayload(serialData);
         if (payloadIndex == -1) {
           return;

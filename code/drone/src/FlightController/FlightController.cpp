@@ -57,6 +57,12 @@ void FlightController::begin()
   // Check if the MS5611 barometer is responding.
   HWire.beginTransmission(MS5611_address); // Start communication with the MS5611.
   error = HWire.endTransmission();         // End the transmission and register the exit status.
+  while (error != 0)
+  {                 // Stay in this loop because the MS5611 did not responde.
+    error = 3;      // Set the error status to 2.
+    error_signal(); // Show the error via the red LED.
+    delay(4);       // Simulate a 250Hz refresch rate as like the main loop.
+  }
 
   gyro_setup();                       // Initiallize the gyro and set the correct registers.
   setup_compass();                    // Initiallize the compass and set the correct registers.
@@ -76,7 +82,12 @@ void FlightController::begin()
   calibrate_gyro(); // Calibrate the gyro offset.
 
   // Wait until the receiver is active.
-
+  while (channel_1 < 990 || channel_2 < 990 || channel_3 < 990 || channel_4 < 990)
+  {
+    error = 4;      // Set the error status to 4.
+    error_signal(); // Show the error via the red LED.
+    delay(4);       // Delay 4ms to simulate a 250Hz loop
+  }
   error = 0; // Reset the error status to 0.
 
   // When everything is done, turn off the led.

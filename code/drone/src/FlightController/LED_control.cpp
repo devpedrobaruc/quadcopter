@@ -8,7 +8,7 @@ void FlightController::red_led(int8_t level)
   if (flip32)
     digitalWrite(PB4, !level); // If a Flip32 is used invert the output.
   else
-    digitalWrite(PC13, !level); // When using the BluePill the output should not be inverted.
+    digitalWrite(PB4, level); // When using the BluePill the output should not be inverted.
 }
 
 void FlightController::green_led(int8_t level)

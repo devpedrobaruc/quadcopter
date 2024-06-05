@@ -213,6 +213,7 @@ private:
     void return_to_home(void);
     void send_telemetry_data(void);
     void si_translate_bytes(void);
+    void Serial_input_handler(void);
     void start_stop_takeoff(void);
     void timer_setup(void);
     void vertical_acceleration_calculations(void);
@@ -220,7 +221,6 @@ private:
 public:
     void begin();
     void process();
-    void Serial_input_handler(void);
 };
 
 #endif

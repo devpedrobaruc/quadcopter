@@ -30,8 +30,8 @@ void FlightController::calibrate_compass(void)
   compass_calibration_on = 0; // Reset the compass_calibration_on variable.
 
   // The maximum and minimum values are needed for the next startup and are stored
-  // for (error = 0; error < 6; error++)
-  //   EEPROM.write(0x10 + error, compass_cal_values[error]);
+  for (error = 0; error < 6; error++)
+    EEPROM.write(0x10 + error, compass_cal_values[error]);
 
   setup_compass();                    // Initiallize the compass and set the correct registers.
   read_compass();                     // Read and calculate the compass data.
@@ -85,8 +85,8 @@ void FlightController::calibrate_level(void)
   red_led(LOW);
   if (error < 80)
   {
-    // EEPROM.write(0x16, acc_pitch_cal_value);
-    // EEPROM.write(0x17, acc_roll_cal_value);
+    EEPROM.write(0x16, acc_pitch_cal_value);
+    EEPROM.write(0x17, acc_roll_cal_value);
     // EEPROM.write(0x10 + error, compass_cal_values[error]);
     for (error = 0; error < 15; error++)
     {
