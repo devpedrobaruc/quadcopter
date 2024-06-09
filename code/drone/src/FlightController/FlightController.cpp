@@ -15,10 +15,10 @@ void FlightController::begin()
   pinMode(STM32_board_LED, OUTPUT);    // This is the LED on the STM32 board. Used for GPS indication.
   digitalWrite(STM32_board_LED, HIGH); // Turn the LED on the STM32 off. The LED function is inverted. Check the STM32 schematic.
 
+  Serial.begin(9600);
+
   green_led(LOW); // Set output PB3 low.
   red_led(HIGH);  // Set output PB4 high.
-
-  pinMode(PA2, OUTPUT); // Set PA2 as output for telemetry TX.
 
   // EEPROM emulation setup
   // EEPROM.PageBase0 = 0x801F000;

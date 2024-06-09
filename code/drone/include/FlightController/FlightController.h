@@ -17,6 +17,8 @@
 #define I2C_SDA PB11
 #define I2C_CLK PB10
 
+#define HC12_R_BUFFER_SIZE 30
+
 class FlightController
 {
 private:
@@ -173,8 +175,7 @@ private:
     int8_t si_rising_edge_set;
     int16_t si_time_array[200];
     int8_t si_print_flag = 1;
-    uint8_t si_time_array_counter, si_time_array_counter_2, si_received_bytes_counter;
-    uint8_t si_received_bytes[30], si_level, si_byte_counter, new_waypoint_available;
+    uint8_t si_received_bytes[HC12_R_BUFFER_SIZE], si_received_bytes_counter, new_waypoint_available;
     int32_t wp_lat_gps, wp_lon_gps;
     int32_t si_measured_time, si_measured_time_start, si_last_input_change, si_last_input_change_previous;
 
@@ -189,7 +190,6 @@ private:
     float adjustable_setting_1, adjustable_setting_2, adjustable_setting_3;
 
     TwoWire HWire;
-    HardwareTimer *Timer3;
 
     void read_barometer(void);
     void calculate_pid(void);
@@ -213,7 +213,6 @@ private:
     void return_to_home(void);
     void send_telemetry_data(void);
     void si_translate_bytes(void);
-    void Serial_input_handler(void);
     void start_stop_takeoff(void);
     void timer_setup(void);
     void vertical_acceleration_calculations(void);

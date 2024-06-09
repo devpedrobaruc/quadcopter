@@ -64,8 +64,11 @@ class _MapPage extends State<MapPage> {
 
     return Future.delayed(readDuration, () {
       if (serialPort!.bytesAvailable < 5) {
-        serialPort!.close();
+        if (serialPort!.isOpen) {
+          serialPort!.close();
+        }
         serialPort!.dispose();
+        serialPort = null;
 
         return false;
       }

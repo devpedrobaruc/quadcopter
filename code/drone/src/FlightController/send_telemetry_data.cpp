@@ -137,21 +137,6 @@ void FlightController::send_telemetry_data(void)
   if (telemetry_loop_counter <= 36)
   {
     check_byte ^= telemetry_send_byte;
-    GPIOA->BSRR = 0b1 << 18; // Reset output PA2 to 0 to create a start bit.
-    delay_micros_timer = micros() + 104;
-    while (delay_micros_timer > micros())
-      ;
-    for (telemetry_bit_counter = 0; telemetry_bit_counter < 8; telemetry_bit_counter++)
-    { // Create a loop fore every bit in the
-      if (telemetry_send_byte >> telemetry_bit_counter & 0b1)
-        GPIOA->BSRR = 0b1 << 2; // If the specific bit is set, set output PA2 to 1;
-      else
-        GPIOA->BSRR = 0b1 << 18; // If the specific bit is not set, reset output PA2 to 0;
-      delay_micros_timer = micros() + 104;
-      while (delay_micros_timer > micros())
-        ;
-    }
-    // Send a stop bit
-    GPIOA->BSRR = 0b1 << 2; // Set output PA2 to 1;
+    Serial.print((char)telemetry_send_byte);
   }
 }
